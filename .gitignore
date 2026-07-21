@@ -1,0 +1,4 @@
+.env
+vertex.db
+__pycache__/
+*.pyc
