@@ -24,6 +24,7 @@ class VertexBot(commands.Bot):
         # Load feature cogs
         await self.load_extension("cogs.general")
         await self.load_extension("cogs.config")
+        await self.load_extension("cogs.economy")
 
         # Push slash commands to Discord
         synced = await self.tree.sync()
