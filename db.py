@@ -75,3 +75,28 @@ def get_steam_id(discord_id: int):
     row = c.fetchone()
     conn.close()
     return row[0] if row else None
+
+    
+def save_match(guild_id: int, discord_id: int, filename: str, demo_url: str, map_name: str, uploaded_at: str):
+    conn = get_conn()
+    c = conn.cursor()
+    c.execute("""
+        INSERT INTO matches (guild_id, discord_id, filename, demo_url, map_name, uploaded_at)
+        VALUES (?, ?, ?, ?, ?, ?)
+    """, (guild_id, discord_id, filename, demo_url, map_name, uploaded_at))
+    conn.commit()
+    conn.close()
+
+
+def get_recent_matches(discord_id: int, limit: int = 5):
+    conn = get_conn()
+    c = conn.cursor()
+    c.execute("""
+        SELECT match_id, filename, map_name, uploaded_at FROM matches
+        WHERE discord_id=?
+        ORDER BY match_id DESC
+        LIMIT ?
+    """, (discord_id, limit))
+    rows = c.fetchall()
+    conn.close()
+    return rows
